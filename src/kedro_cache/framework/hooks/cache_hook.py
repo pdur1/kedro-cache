@@ -58,18 +58,34 @@ class KedroCacheHook:
         """
         # Find the KedroCacheConfig in the context
         try:
-            conf_cache_yml = context.config_loader.get("cache*", "cache*/**")
+            conf_cache_yml = context.config_loader["cache"]
         except MissingConfigException:
             self._logger.warning("No 'cache.yml' config file found in environment")
             conf_cache_yml = {}
-        print(conf_cache_yml)
         cache_config = KedroCacheConfig.model_validate(conf_cache_yml)
-
         # store in context for interactive use
         context.__setattr__("cache_config", cache_config)
+        # save it so it can be accessed in after_catalog_created hoox 
+        self.cache_config = cache_config
 
+     
+        
+
+    @hook_impl
+    def after_catalog_created(
+        self,
+        catalog: DataCatalog,
+        conf_catalog: Dict[str, Any],
+        conf_creds: Dict[str, Any],
+        save_version: str,
+        load_versions: Dict[str, str],
+    ) -> None:
+        
         # store in catalog for further reuse
-        context.catalog._data_sets[CACHE_CONFIG_KEY] = MemoryDataset(cache_config)
+        memory = MemoryDataset(data=None)
+        catalog.add(CACHE_CONFIG_KEY, memory)
+        catalog.save(CACHE_CONFIG_KEY, self.cache_config)
+        catalog.exists(CACHE_CONFIG_KEY)
 
     @hook_impl
     def before_node_run(
