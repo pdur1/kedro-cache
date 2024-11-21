@@ -9,7 +9,7 @@ from kedro.framework.context import KedroContext
 from kedro.framework.project import _ProjectPipelines  # type: ignore
 from kedro.framework.session import KedroSession
 from kedro.framework.startup import bootstrap_project
-from kedro.io import DataCatalog, MemoryDataSet
+from kedro.io import DataCatalog, MemoryDataset
 from kedro.pipeline.modular_pipeline import pipeline
 from kedro.pipeline.node import node
 from kedro.pipeline.pipeline import Pipeline
@@ -24,7 +24,7 @@ def mock_catalog(mocker: MockerFixture) -> None:
     """Mock a the data catalog."""
     dummy_catalog = DataCatalog(
         {
-            "input": MemoryDataSet(pd.DataFrame({"a": [1, 2, 3]})),  # type: ignore
+            "input": MemoryDataset(pd.DataFrame({"a": [1, 2, 3]})),  # type: ignore
         }
     )
 

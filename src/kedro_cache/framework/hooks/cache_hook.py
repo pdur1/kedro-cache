@@ -7,7 +7,7 @@ from typing import Any, Callable, Dict, Optional
 from kedro.config import MissingConfigException
 from kedro.framework.context import KedroContext
 from kedro.framework.hooks import hook_impl
-from kedro.io import DataCatalog, MemoryDataSet
+from kedro.io import DataCatalog, MemoryDataset
 from kedro.pipeline.node import Node
 from sqlitedict import SqliteDict
 
@@ -62,13 +62,14 @@ class KedroCacheHook:
         except MissingConfigException:
             self._logger.warning("No 'cache.yml' config file found in environment")
             conf_cache_yml = {}
-        cache_config = KedroCacheConfig.parse_obj(conf_cache_yml)
+        print(conf_cache_yml)
+        cache_config = KedroCacheConfig.model_validate(conf_cache_yml)
 
         # store in context for interactive use
         context.__setattr__("cache_config", cache_config)
 
         # store in catalog for further reuse
-        context.catalog._data_sets[CACHE_CONFIG_KEY] = MemoryDataSet(cache_config)
+        context.catalog._data_sets[CACHE_CONFIG_KEY] = MemoryDataset(cache_config)
 
     @hook_impl
     def before_node_run(

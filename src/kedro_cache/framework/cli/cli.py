@@ -6,8 +6,8 @@ from typing import Dict, List, Optional
 import click
 from click.core import Command, Context
 from kedro.framework.project import settings
-from kedro.framework.startup import _is_project, bootstrap_project
-
+from kedro.framework.startup import bootstrap_project
+from kedro.utils import _is_project
 from kedro_cache.framework.cli.cli_utils import write_jinja_template
 from kedro_cache.framework.cli.env_utils import rerun_env_context
 

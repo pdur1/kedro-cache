@@ -5,12 +5,12 @@ from typing import Any, Dict
 import pandas as pd
 import pytest
 from contexttimer import Timer
-from kedro.extras.datasets.pickle import PickleDataSet
+from kedro.extras.datasets.pickle import PickleDataset
 from kedro.framework.context import KedroContext
 from kedro.framework.project import _ProjectPipelines  # type: ignore
 from kedro.framework.session import KedroSession
 from kedro.framework.startup import bootstrap_project
-from kedro.io import DataCatalog, MemoryDataSet
+from kedro.io import DataCatalog, MemoryDataset
 from kedro.pipeline.modular_pipeline import pipeline
 from kedro.pipeline.node import node
 from kedro.pipeline.pipeline import Pipeline
@@ -27,8 +27,8 @@ def original_input_catalog() -> DataCatalog:
     """
     dummy_catalog = DataCatalog(
         {
-            "input": MemoryDataSet(pd.DataFrame({"a": [1, 2, 3]})),  # type: ignore
-            "output": PickleDataSet("output.pkl"),
+            "input": MemoryDataset(pd.DataFrame({"a": [1, 2, 3]})),  # type: ignore
+            "output": PickleDataset("output.pkl"),
         }
     )
     return dummy_catalog
@@ -43,8 +43,8 @@ def change_input_catalog() -> DataCatalog:
     """
     dummy_catalog = DataCatalog(
         {
-            "input": MemoryDataSet(pd.DataFrame({"a": [2, 3, 4]})),  # type: ignore
-            "output": PickleDataSet("output.pkl"),
+            "input": MemoryDataset(pd.DataFrame({"a": [2, 3, 4]})),  # type: ignore
+            "output": PickleDataset("output.pkl"),
         }
     )
     return dummy_catalog

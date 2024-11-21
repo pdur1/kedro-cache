@@ -5,12 +5,12 @@ from typing import Dict
 import pandas as pd
 import pytest
 from contexttimer import Timer
-from kedro.extras.datasets.pickle import PickleDataSet
+from kedro.extras.datasets.pickle import PickleDataset
 from kedro.framework.context import KedroContext
 from kedro.framework.project import _ProjectPipelines  # type: ignore
 from kedro.framework.session import KedroSession
 from kedro.framework.startup import bootstrap_project
-from kedro.io import DataCatalog, MemoryDataSet
+from kedro.io import DataCatalog, MemoryDataset
 from kedro.pipeline.modular_pipeline import pipeline
 from kedro.pipeline.node import node
 from kedro.pipeline.pipeline import Pipeline
@@ -29,8 +29,8 @@ def mock_catalog(mocker: MockerFixture) -> None:
     """Mock a the data catalog."""
     datasets = [
         {
-            f"input_{i}": MemoryDataSet(pd.DataFrame({"a_{i}": range(i, i + 10)})),
-            f"interim_{i}": PickleDataSet(filepath=f"interim_{i}.pkl"),
+            f"input_{i}": MemoryDataset(pd.DataFrame({"a_{i}": range(i, i + 10)})),
+            f"interim_{i}": PickleDataset(filepath=f"interim_{i}.pkl"),
         }
         for i in range(N_NODES)
     ]

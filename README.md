@@ -74,15 +74,15 @@ This is only possible if it was stored there.
 # catalog.yml
 
 input:
-  type: pandas.CSVDataSet
+  type: pandas.CSVDataset
   filepath: input.csv
 
 intermediate:
-  type: pandas.CSVDataSet
+  type: pandas.CSVDataset
   filepath: intermediate.csv
 
 output:
-  type: pandas.CSVDataSet
+  type: pandas.CSVDataset
   filepath: output.csv
 ```
 
