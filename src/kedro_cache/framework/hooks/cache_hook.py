@@ -38,10 +38,12 @@ class KedroCacheHook:
     """
 
     node2original_function: Dict[str, Callable]
+    inputs_hash_dict: Dict[str, str]
 
     def __init__(self) -> None:
         self.node2original_function = {}
-
+        self.inputs_hash_dict = {}
+        
     @hook_impl
     def after_context_created(
         self,
@@ -107,6 +109,10 @@ class KedroCacheHook:
             is_async: Whether the node was run in `async` mode.
             session_id: The id of the session.
         """
+        # calculate hash on unchanged inputs and save it for later
+        input_hash = hash_datadict(inputs)
+        self.inputs_hash_dict[node.name] = input_hash
+        
         # load cache config from catalog
         assert catalog.exists(CACHE_CONFIG_KEY), "Cache config must exist"
         cache_config = catalog.load(CACHE_CONFIG_KEY)
@@ -128,7 +134,6 @@ class KedroCacheHook:
         assert cache.node_name == node.name, "Node name must match"
 
         # 3. if input hash does not match, exit
-        input_hash = hash_datadict(inputs)
         if input_hash != cache.input_hash:
             return
 
@@ -192,7 +197,7 @@ class KedroCacheHook:
         node.func = self.node2original_function.pop(node.name, node.func)
 
         # calculate hashes
-        input_hash = hash_datadict(inputs)
+        input_hash = self.inputs_hash_dict[node.name]
         output_hash = hash_datadict(outputs)
         function_hash = hash_function_body(node.func)
 

@@ -1,7 +1,7 @@
 # Kedro Cache
 
 > :warning: _This plugin is still under active developement and not fully tested. Do not use this in any production systems. Please report any issues that you find._
-
+> :warning: _This plugin does not support write only datasets like [tracking.JSONDataset](https://github.com/kedro-org/kedro-plugins/blob/main/kedro-datasets/kedro_datasets/tracking/json_dataset.py) or [tracking.MetricsDataset](https://github.com/kedro-org/kedro-plugins/blob/main/kedro-datasets/kedro_datasets/tracking/metrics_dataset.py). These datasets cannot be loaded from catalog._
 ## 📝 Description
 
 `kedro-cache` is a [kedro](https://kedro.org/) plugin that plugin that enables the caching of data sets.
