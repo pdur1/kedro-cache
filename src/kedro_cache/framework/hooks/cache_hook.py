@@ -109,7 +109,9 @@ class KedroCacheHook:
             is_async: Whether the node was run in `async` mode.
             session_id: The id of the session.
         """
-  
+        # skip if cache is disabled
+        if self.cache_config.disabled:
+            return
         
         # load cache config from catalog
         assert catalog.exists(CACHE_CONFIG_KEY), "Cache config must exist"
@@ -191,6 +193,9 @@ class KedroCacheHook:
             is_async: Whether the node was run in ``async`` mode.
             session_id: The id of the session.
         """
+        # skip if cache is disabled
+        if self.cache_config.disabled:
+            return
         # load cache config from catalog
         assert catalog.exists(CACHE_CONFIG_KEY), "Cache config must exist"
         cache_config = catalog.load(CACHE_CONFIG_KEY)
@@ -233,6 +238,5 @@ class KedroCacheHook:
         all_disabled = cache_config.rerun_all
         env_disabled = os.environ.get(RERUN_ENV_VAR, "0") == "1"
         return node_disabled or all_disabled or env_disabled
-
 
 cache_hook = KedroCacheHook()

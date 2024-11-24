@@ -14,7 +14,7 @@ def hash_pandas_dataframe(df: pd.DataFrame) -> str:
         Returns:
             The hash of the DataFrame.
         """
-        df = df.map(lambda x: tuple(x) if isinstance(x, (list, np.ndarray)) else x)
+        # df = df.map(lambda x: tuple(x) if isinstance(x, (list, np.ndarray)) else x)
         return pd.util.hash_pandas_object(df, index=True).values
 
 def hash_datadict(d: Dict[str, Any]) -> str:

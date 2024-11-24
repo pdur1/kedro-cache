@@ -15,3 +15,4 @@ class KedroCacheConfig(BaseModel):
     ignore_nodes: List[str] = Field(default_factory=list)
     cachedb_dir: Path = DEFAULT_CACHEDB_DIR
     rerun_all: bool = False
+    disabled: bool = False

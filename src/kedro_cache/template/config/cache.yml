@@ -6,3 +6,6 @@ ignore_nodes: []
 
 # if all caches should be ignored
 rerun_all: false
+
+# if plugin should be disabled
+disabled: false
