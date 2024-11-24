@@ -109,9 +109,7 @@ class KedroCacheHook:
             is_async: Whether the node was run in `async` mode.
             session_id: The id of the session.
         """
-        # calculate hash on unchanged inputs and save it for later
-        input_hash = hash_datadict(inputs)
-        self.inputs_hash_dict[node.name] = input_hash
+  
         
         # load cache config from catalog
         assert catalog.exists(CACHE_CONFIG_KEY), "Cache config must exist"
@@ -132,7 +130,11 @@ class KedroCacheHook:
 
         # sanity check: The cache name should match the node name
         assert cache.node_name == node.name, "Node name must match"
-
+        
+        # calculate hash on unchanged inputs and save it for later
+        input_hash = hash_datadict(inputs)
+        self.inputs_hash_dict[node.name] = input_hash
+        
         # 3. if input hash does not match, exit
         if input_hash != cache.input_hash:
             return
